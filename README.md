@@ -1,3 +1,3 @@
-Only play in console!
-use arrow key to play
-reload to retry
+Now playable
+Pls dont blame me
+
