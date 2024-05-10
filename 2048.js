@@ -301,6 +301,9 @@ function gameover_in_html() {
 
 function retry() {
 	if (confirm('Are you sure to play again?')){
+		var gameOverElement = document.getElementById("gameover");
+    	gameOverElement.textContent = ""; // Set the game over message
+    	gameOverElement.style.display = "none";
 		newgame();
 	}
 }
