@@ -1,5 +1,7 @@
 var value = [];
 var score = 0;
+var newtile_x, newtile_y;
+var changes;
 
 function reset_board() {
 	score=0;
@@ -9,6 +11,7 @@ function reset_board() {
 			value[i][j]=0;
 		}
 	}
+
 }
 
 
@@ -33,15 +36,16 @@ function random(l,r) {
 }
 
 function random_newtile(){
-	i = random(0,3);
-	j = random(0,3);
-	while (value[i][j]!=0){
-		i = random(0,3);
-		j = random(0,3);
+	newtile_x = random(0,3);
+	newtile_y = random(0,3);
+	while (value[newtile_x][newtile_y]!=0){
+		newtile_x = random(0,3);
+		newtile_y = random(0,3);
 	}
+
 	r=random(1,10);
 	if (r<10) r=1; else r=2;
-	value[i][j]=r*2;
+	value[newtile_x][newtile_y]=r*2;
 }
 
 function check_gameover() {
@@ -234,6 +238,7 @@ function handleKeyDown(event) {
 
 
 function newgame(){
+	score=0;
 	reset_board();
 	random_newtile();
 	random_newtile();
@@ -242,10 +247,12 @@ function newgame(){
 }
 
 function gameLoop() {
+	draw();
 	let gameover_status = true;
     if (check_gameover()==false) {
         gameover_status = false;
         console.log(score + " game over\n"); 
+        gameover_in_html();
         document.removeEventListener("keydown", handleKeyDown);// Khi game over, cập nhật trạng thái
     } else {
         // Thực hiện các hành động cần thiết
@@ -254,4 +261,46 @@ function gameLoop() {
     }
 }
 
-newgame();
+
+
+newgame();	
+
+
+
+//drawing
+
+function draw() {
+	for (let i=1;i<=4;++i){
+		for (let j=1;j<=4;++j){
+			changes = document.querySelector(".game-container .row:nth-child("+i+") .box:nth-child("+j+")");
+			changes.textContent="";
+			if (value[i-1][j-1]!=0) {
+				changes.textContent = value[i-1][j-1];
+
+			}
+			changes.classList=[];
+			changes.classList.add("box");
+			if (value[i-1][j-1]<10000) changes.classList.add("c"+value[i-1][j-1]);
+			else changes.classList.add("csuper");
+		}
+	}
+
+	let x=newtile_x+1; y=newtile_y+1;
+	changes = document.querySelector(".game-container .row:nth-child("+x+") .box:nth-child("+y+")");
+	changes.classList.add("newc");
+
+	changes = document.getElementsByClassName("score")[0];
+	changes.textContent = "score: "+score;
+}
+
+function gameover_in_html() {
+    var gameOverElement = document.getElementById("gameover");
+    gameOverElement.textContent = "Game Over"; // Set the game over message
+    gameOverElement.style.display = "block"; // Show the game over element
+}
+
+function retry() {
+	if (confirm('Are you sure to play again?')){
+		newgame();
+	}
+}
