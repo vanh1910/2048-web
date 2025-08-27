@@ -1,8 +1,6 @@
 @charset "UTF-8";
 html,
 body {
-  margin: 0;
-  padding: 0;
   background:  dimgray;
   color: rgba(245, 245, 245, 1.0);
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
@@ -29,6 +27,7 @@ button{
 }
 
 .game-container{
+  overscroll-behavior: contain;
   margin: auto;
   position: relative;
   border: 1px solid black;
@@ -38,9 +37,8 @@ button{
 
 .row{
   position: relative;
-  float: down;
   width: 400px;
-  height: 98px;
+  height: 100px;
 }
 
 .box{
@@ -55,6 +53,44 @@ button{
   padding-top: 25px;
   padding-bottom: 25px;
   box-sizing: border-box;
+}
+
+/* Tablet */
+@media (width < 700px) {
+  .game-container {
+    width: 500px;
+    height: 500px;
+  }
+  .row {
+    width: 500px;
+    height: 123px;
+  }
+  .box {
+    width: 125px;
+    height: 125px;
+    font-size: 45 px;
+    padding-top: 38px;
+    padding-bottom: 38px;
+  }
+}
+
+/* Mobile */
+@media (width < 500px) {
+  .game-container {
+    width: 300px;
+    height: 300px;
+  }
+  .row {
+    width: 300px;
+    height: 73px;
+  }
+  .box {
+     width: 75px;
+    height: 75px;
+    font-size: 30px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
 }
 
 .newc{
