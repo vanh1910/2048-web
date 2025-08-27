@@ -217,24 +217,41 @@ function action_right(){
 	}else console.log("wrong move\n");
 }
 
-function handleKeyDown(event) {
-	  // Check which key is pressed
-    if (event.key === "ArrowUp") {
-        // Run your function for the up arrow key
-        action_up();
-    } else if (event.key === "ArrowDown") {
-        // Run your function for the down arrow key
-        action_down();
-    } else if (event.key === "ArrowLeft") {
-        // Run your function for the left arrow key
-        action_left();
-    } else if (event.key === "ArrowRight") {
-        // Run your function for the right arrow key
-        action_right();
+let touchStartX = 0, touchStartY = 0;
+
+function handleTouchStart(e) {
+    if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
     }
-    
 }
 
+function handleTouchEnd(e) {
+    if (e.changedTouches.length === 1) {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx > 30) action_right();
+            else if (dx < -30) action_left();
+        } else {
+            if (dy > 30) action_down();
+            else if (dy < -30) action_up();
+        }
+    }
+}
+
+function handleKeyDown(event) {
+    const key = event.key.toLowerCase();
+    if (key === "arrowup" || key === "w") {
+        action_up();
+    } else if (key === "arrowdown" || key === "s") {
+        action_down();
+    } else if (key === "arrowleft" || key === "a") {
+        action_left();
+    } else if (key === "arrowright" || key === "d") {
+        action_right();
+    }
+}
 
 
 function newgame(){
@@ -254,9 +271,13 @@ function gameLoop() {
         console.log(score + " game over\n"); 
         gameover_in_html();
         document.removeEventListener("keydown", handleKeyDown);// Khi game over, cập nhật trạng thái
+		document.removeEventListener("touchstart", handleTouchStart, {passive: true});
+		document.removeEventListener("touchend", handleTouchEnd, {passive: true});
     } else {
         // Thực hiện các hành động cần thiết
         document.addEventListener("keydown", handleKeyDown);
+		document.addEventListener("touchstart", handleTouchStart, {passive: true});
+		document.addEventListener("touchend", handleTouchEnd, {passive: true});
         setTimeout(gameLoop, 100); // Gọi lại gameLoop sau 100ms
     }
 }
