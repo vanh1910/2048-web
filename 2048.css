@@ -16,8 +16,11 @@ h1 {
 }
 
 .text-above-game-container {
-  margin-left: 20px;
-  margin-bottom: 20px;  
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;  
+  text-align: center;
+  padding-bottom: 10px;
 }
 
 button{
@@ -26,7 +29,7 @@ button{
 }
 
 .game-container{
-  margin-left: 20px;
+  margin: auto;
   position: relative;
   border: 1px solid black;
   width: 400px;
